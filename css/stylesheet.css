@@ -1,5 +1,10 @@
 /*custom font*/
-@import url(http://fonts.googleapis.com/css?family=Montserrat);
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+
+:root {
+    --main-color: #feffa2;
+    --secondary-color: #e8d3c7;
+}
 
 /*basic reset*/
 * {
@@ -9,28 +14,27 @@
 
 html {
     height: 100%;
-    /*Image only BG fallback*/
-    background: url('http://thecodeplayer.com/uploads/media/gs.png');
     /*background = gradient + image pattern combo*/
-    background: linear-gradient(rgba(196, 102, 0, 0.2), rgba(155, 89, 182, 0.2)),
-    url('http://thecodeplayer.com/uploads/media/gs.png');
+    background: linear-gradient(rgba(216, 84, 84, 0.2), rgba(234, 176, 65, 0.2)),
+    url(../images/background.jpg);
 }
 
 body {
-    font-family: montserrat, arial, verdana;
+    font-family: roboto, arial, verdana, sans-serif;
     background-color: transparent;
 }
 
 /*form styles*/
 #msform {
-    width: 80%;
+    width: 60%;
     margin: 50px auto;
     text-align: center;
     position: relative;
 }
 
 #msform fieldset {
-    background: white;
+    background: var(--main-color);
+
     border: 0 none;
     border-radius: 3px;
     box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
@@ -56,7 +60,7 @@ body {
     margin-bottom: 10px;
     width: 100%;
     box-sizing: border-box;
-    font-family: montserrat;
+    font-family: roboto, sans-serif;
     color: #2C3E50;
     font-size: 13px;
 }
@@ -74,7 +78,7 @@ body {
 #msform .action-button {
     display: block;
     width: 200px;
-    background: #27AE60;
+    background: var(--secondary-color);
     font-weight: bold;
     color: white;
     border: 0 none;
@@ -85,7 +89,7 @@ body {
 }
 
 #msform .action-button:hover, #msform .action-button:focus {
-    box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--secondary-color);
 }
 
 /*headings*/
@@ -158,7 +162,7 @@ body {
 /*marking active/completed steps green*/
 /*The number of the step and the connector before it = green*/
 #progressbar li.active:before, #progressbar li.active:after {
-    background: #27AE60;
+    background: var(--secondary-color);
     color: white;
 }
 
@@ -194,7 +198,4 @@ body {
     .mui-textfield:nth-child(2) {
         margin-right: 10%;
     }
-    /*.mui-textfield:last-of-type{*/
-         /*display: block;*/
-     /*}*/
 }
