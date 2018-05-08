@@ -1,15 +1,31 @@
 // http://thecodeplayer.com/walkthrough/jquery-multi-step-form-with-progress-bar
 // jQuery time
-var current_fs, next_fs, previous_fs; //fieldsets
-var left, opacity, scale; //fieldset properties which we will animate
-var animating; //flag to prevent quick multi-click glitches
+let current_fs, next_fs, previous_fs; //fieldsets
+let current_fs_name;
+let left, opacity, scale; //fieldset properties which we will animate
+let animating; //flag to prevent quick multi-click glitches
 
 $(".next").click(function () {
     if (animating) return false;
     animating = true;
 
     current_fs = $(this).parent();
-    next_fs = $(this).parent().next();
+    current_fs_name = $(this).attr("name");
+
+    switch (current_fs_name) {
+        case "next":
+            next_fs = $(this).parent().next();
+            $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+            break;
+        case "next-next":
+            next_fs = $(this).parent().next().next();
+            $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+            break;
+        case "next-next-next":
+            next_fs = $(this).parent().next().next().next();
+            break;
+    }
+
 
     //activate next step on progressbar using the index of next_fs
     $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
@@ -44,10 +60,11 @@ $(".previous").click(function () {
     animating = true;
 
     current_fs = $(this).parent();
-    previous_fs = $(this).parent().prev();
+    previous_fs = $(this).parent().parent().children("fieldset:first-of-type");
 
     //de-activate current step on progressbar
     $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+    $("#progressbar li").eq($("fieldset").index(previous_fs)).addClass("active");
 
     //show the previous fieldset
     previous_fs.show();
@@ -76,4 +93,4 @@ $(".previous").click(function () {
 
 $(".submit").click(function () {
     return false;
-})
+});
