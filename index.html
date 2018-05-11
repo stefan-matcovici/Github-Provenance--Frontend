@@ -9,6 +9,9 @@
     <!-- Bootstrap v4 https://getbootstrap.com/ -->
     <link href="css/vendor/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
     <!-- own css -->
     <link rel="stylesheet" href="css/stylesheet.css">
 </head>
@@ -25,12 +28,12 @@
     <fieldset>
         <h2 class="fs-title">Enter the repository's details</h2>
         <div class="mui-textfield mui-textfield--float-label">
-            <input id="owner" type="text" name="owner" required>
+            <input id="owner" type="text" name="owner" required/>
             <label for="owner">Owner</label>
         </div>
 
         <div class="mui-textfield mui-textfield--float-label">
-            <input id="repository" type="text" name="owner" required>
+            <input id="repository" type="text" name="owner" required/>
             <label for="repository">Name</label>
         </div>
 
@@ -49,18 +52,9 @@
         <h2 class="fs-title">Stored Repositories</h2>
         <h3 class="fs-subtitle">This is a list of already stored repositories.</h3>
 
-        <ul class="list-group list-group-flush stored-list">
-            <li class="list-group-item">Cras justo odio</li>
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Morbi leo risus</li>
-            <li class="list-group-item">Porta ac consectetur ac</li>
-            <li class="list-group-item">Vestibulum at eros</li>
+        <ul class="list-group list-group-flush stored-list"></ul>
 
-            <li class="list-group-item">Porta ac consectetur ac</li>
-            <li class="list-group-item">Vestibulum at eros</li>
-        </ul>
-
-        <input type="button" name="next" class="next action-button" value="Choose visualization"/>
+        <input type="button" name="next" class="repo-list-next next action-button" value="Choose visualization"/>
         <h3 class="fs-subsubtitle">If you remember storing the repository
             but you can't find it, it means that it was cleared from our database due to lack of requests</h3>
         <input type="button" name="previous" class="previous action-button" value="Add a new repository"/>
@@ -70,7 +64,27 @@
         <input type="button" name="previous" class="previous action-button" value="Previous"/>
         <input type="submit" name="submit" class="submit action-button" value="Submit"/>
     </fieldset>
+    <!-- Modal HTML -->
+    <div id="error-modal" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="icon-box">
+                        <i class="material-icons">&#xE5CD;</i>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body text-center">
+                    <h4>Ooops!</h4>
+                    <p id="modal-text"></p>
+                    <button class="btn btn-success" data-dismiss="modal">Try Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
+
+
 
 <!-- jQuery https://jquery.com/ -->
 <script src="js/vendor/jquery.min.js" type="text/javascript"></script>
@@ -84,5 +98,28 @@
 <script src="js/vendor/bootstrap/bootstrap.min.js" type="text/javascript"></script>
 <!--own scripts-->
 <script src="js/main.js"></script>
+
+<script type="module">
+    import {ApiService} from "./js/services/api-service.js";
+
+    let apiService = new ApiService();
+    apiService.getAllRepositories().then(repositoryLinks => {
+        let repositoryList = $(".stored-list");
+
+        repositoryLinks.forEach(repositoryLink => {
+            let path = repositoryLink.split("/");
+            $('<li/>')
+                .addClass('list-group-item')
+                .addClass('unselectable')
+                .text(path[path.length - 2] + "/" + path[path.length - 1])
+                .click(function () {
+                    $(".stored-list").children().not(this).removeClass('active');
+                    $(this).toggleClass("active");
+                })
+                .appendTo(repositoryList);
+
+        });
+    });
+</script>
 </body>
 </html>

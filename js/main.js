@@ -5,7 +5,18 @@ let current_fs_name;
 let left, opacity, scale; //fieldset properties which we will animate
 let animating; //flag to prevent quick multi-click glitches
 
+$(".repo-list-next").click(function (event) {
+    console.log("there");
+    let selectedRepository = $(".stored-list").children(".active");
+    if (selectedRepository.length === 0) {
+        event.stopImmediatePropagation();
+        showErrorModal("You didn't select any repository");
+    }
+});
+
 $(".next").click(function () {
+    console.log("here");
+
     if (animating) return false;
     animating = true;
 
@@ -25,7 +36,6 @@ $(".next").click(function () {
             next_fs = $(this).parent().next().next().next();
             break;
     }
-
 
     //activate next step on progressbar using the index of next_fs
     $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
@@ -94,3 +104,8 @@ $(".previous").click(function () {
 $(".submit").click(function () {
     return false;
 });
+
+function showErrorModal(text) {
+    $('#modal-text').text(text);
+    $('#error-modal').modal('show');
+}
